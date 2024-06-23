@@ -1,6 +1,9 @@
 import User from "../models/User.js";
+
 import  jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+
+import { generateToken } from "../utils/generateToken.js";
 
 const addNewUser = async (req, res) => {
     const { username, password } = req.body;
@@ -29,11 +32,11 @@ const loginUser = async (req, res) => {
             res.status(404).json({ message: "Username or password is invalid"})
         }
 
-        const token = jwt.sign({ _id: user.id, username: user.username}, "not something secure for now", {expiresIn: "1h"})
+        const token = generateToken(user);
         res.json({ token });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "No user found"})
+        res.status(500).json({ message: "Something wrong happened", error: err.message})
     }
 }
 
