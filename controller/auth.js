@@ -37,4 +37,8 @@ const loginUser = async (req, res) => {
     }
 }
 
-export { addNewUser, loginUser }
+const testSome = (req, res) => {
+    res.send("<h1>Welcome to our private section</h1>");
+}
+
+export { addNewUser, loginUser, testSome }
