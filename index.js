@@ -10,7 +10,7 @@ const app = express();
 
 const PORT = process.env.PORT || 4000;
 
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use('/creatures', routerFictional);
@@ -18,7 +18,7 @@ app.use('/creatures', routerFictional);
 (async () => {
     try {
       await connect();
-      // Your application logic here, using the established Mongoose connection
+
       app.listen(PORT, () => {
         console.log(`Server is up and running at http://localhost:${PORT}`);
     });

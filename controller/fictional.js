@@ -2,10 +2,12 @@ import Fictional from "../models/fictional.js";
 
 const retrieveId = async (req, res, next, fictionalCreatureId) => {
     try {
-        const fictionalCreature = await Fictional.findById(fictionalCreatureId)
+        const fictionalCreature = await Fictional.findOne({ _id: fictionalCreatureId });
         if(fictionalCreature){
             req.fictional = fictionalCreature;
             next();
+        }else if(fictionalCreature === null){
+            res.status(404).json({ message: "No data associated to this id"})
         }
     } catch (error) {
         if(error.name === 'CastError') {
@@ -74,9 +76,11 @@ const updateFictionalCreature = async (req, res) => {
 const deleteFictionalCreature = async (req, res) => {
     try {
         const hasBeenDeleted = await Fictional.deleteOne({ _id: req.fictional._id });
-
+console.log(hasBeenDeleted);
         if(hasBeenDeleted.acknowledged){
             res.status(200).json({ message: "Record has been deleted successfully." })
+        }else{
+            res.status(200).json({ message: "mhmm" })
         }
     } catch (error) {
         res.status(500).json({error})
