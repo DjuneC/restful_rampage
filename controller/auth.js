@@ -33,10 +33,14 @@ const loginUser = async (req, res) => {
         }
 
         const token = generateToken(user);
+
+        res.cookie("jwt", token, { httpOnly: true, secure: process.env.NODE_ENV === "development" ? false : true, maxAge: 3600000 })
+
+        req.session.user = { _id: user._id, username: user.username }
         res.json({ token });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Something wrong happened", error: err.message})
+        res.status(500).json({ message: "Something wrong happened", error: error.message})
     }
 }
 
